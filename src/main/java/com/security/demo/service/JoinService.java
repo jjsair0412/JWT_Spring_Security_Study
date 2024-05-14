@@ -53,7 +53,7 @@ public class JoinService implements UserManagerService{
         String authorizationHeader = request.getHeader("Authorization");
 
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            throw new RuntimeException("AccessToken 이 존재하지 않습니다.");
+            throw new RuntimeException("refreshToken 이 존재하지 않습니다.");
         }
 
         // accessToken 꺼내오기
