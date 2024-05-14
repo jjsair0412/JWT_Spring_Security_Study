@@ -29,9 +29,10 @@ public class JoinService implements UserManagerService{
          * password 값은 원본 그대로 DB에 저장되면 안되기 때문에 ,
          * @Bean 객체로 등록한 BCryptPasswordEncoder 의 .encode() 메서드로 인코딩 시켜야 함.
          */
-        UserEntity userEntity = JoinDto.builder().build().toUserEntity(joinDto, bCryptPasswordEncoder);
-        userRepository.save(userEntity);
 
+        UserEntity userEntity = joinDto.toUserEntity(joinDto, bCryptPasswordEncoder);
+
+        userRepository.save(userEntity);
 
     }
 }
