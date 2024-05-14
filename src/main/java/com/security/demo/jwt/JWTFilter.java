@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.security.demo.commonResponse.customException.TokenExpiredException;
 import com.security.demo.domain.dto.CustomUserDetails;
 import com.security.demo.domain.dto.MemberEnum;
-import com.security.demo.entity.UserEntity;
+import com.security.demo.domain.entity.UserEntity;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

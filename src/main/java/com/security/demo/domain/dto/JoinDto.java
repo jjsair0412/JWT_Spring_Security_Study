@@ -1,6 +1,7 @@
 package com.security.demo.domain.dto;
 
-import com.security.demo.entity.UserEntity;
+
+import com.security.demo.domain.entity.UserEntity;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

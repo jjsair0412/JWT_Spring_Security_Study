@@ -2,8 +2,8 @@ package com.security.demo.jwt;
 
 import com.security.demo.domain.dto.CustomUserDetails;
 import com.security.demo.domain.dto.MemberEnum;
-import com.security.demo.entity.UserEntity;
-import com.security.demo.entity.UserTokenEntity;
+import com.security.demo.domain.entity.UserEntity;
+import com.security.demo.domain.entity.UserTokenEntity;
 import com.security.demo.repository.UserRepository;
 import com.security.demo.repository.UserTokenRepository;
 import jakarta.servlet.FilterChain;

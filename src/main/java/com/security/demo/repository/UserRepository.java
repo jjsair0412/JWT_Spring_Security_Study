@@ -1,6 +1,7 @@
 package com.security.demo.repository;
 
-import com.security.demo.entity.UserEntity;
+
+import com.security.demo.domain.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<UserEntity, Integer> {

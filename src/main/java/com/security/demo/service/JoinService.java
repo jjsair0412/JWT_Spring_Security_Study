@@ -2,8 +2,8 @@ package com.security.demo.service;
 
 import com.security.demo.domain.dto.JoinDto;
 import com.security.demo.domain.dto.MemberEnum;
-import com.security.demo.entity.UserEntity;
-import com.security.demo.entity.UserTokenEntity;
+import com.security.demo.domain.entity.UserEntity;
+import com.security.demo.domain.entity.UserTokenEntity;
 import com.security.demo.jwt.JWTUtil;
 import com.security.demo.repository.UserRepository;
 import com.security.demo.repository.UserTokenRepository;
@@ -66,7 +66,7 @@ public class JoinService implements UserManagerService{
         // accessToken , refreshToken 재발급
         // refreshToken 만료일 계산하여 5분 미만일 경우에만 refreshToken 재발급후 DB save
         if (jwtUtil.isRefreshExpiredSoon(requestRefreshToken)) {
-            log.info("refreshToken 만료일 5분 미만 , accessToken, refreshToken 재발급 수행");
+            log.info("refreshToken 만료일 5분 미만 남음 , accessToken, refreshToken 재발급 수행");
             Map<String, String> jwtTokens = jwtUtil.createJwt(username, role);
             String refreshToken = jwtTokens.get("refreshToken");
 
@@ -78,7 +78,7 @@ public class JoinService implements UserManagerService{
             // accessToken, refreshToken return
             return jwtTokens;
         } else {
-            log.info("refreshToken 만료일 5분 이상 , accessToken 재발급 수행");
+            log.info("refreshToken 만료일 5분 이상 남음 , accessToken 재발급 수행");
             // refreshToken 5일 이상 남아있을경우 accessToken만 재 발급
             // refreshToken은 DB 조회하여 가져와서 리턴
             String accessToken = jwtUtil.createAccessToken(username, role);
