@@ -18,6 +18,17 @@ Spring Security와 JWT를 사용하여 인증/인가 로직을 구현한 코드
        - 재발급한 ```refreshToken``` 은 다시 DB , Redis 등 저장소에 저장.
 
 ## Running
+### Requirement
+backend DB는 MySQL 사용.
+- 간단히 도커 컨테이너로 생성
+```bash
+# usecase
+docker run --name {container_name} -e MYSQL_ROOT_PASSWORD={MYSQL_ROOT_PASSWORD} -d -p 3306:3306 mysql:8.3
+
+# 실 사용 명령어
+docker run --name security-mysql -e MYSQL_ROOT_PASSWORD=jinseongTest! -d -p 3306:3306 mysql:8.3
+```
+
 ### 0. jdk version
 jdk 17
 
