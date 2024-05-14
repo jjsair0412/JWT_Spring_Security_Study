@@ -11,6 +11,10 @@ public class MemberController {
 
     private final UserManagerService userManagerService;
 
+    /**
+     * JWTFilter 에서 accessToken이 expired 되었을 경우, FrontEnd가 AccessToken 재발급 요청하는 API
+     * @return : accessToken
+     */
     @GetMapping("/refresh")
     public String tokenRefresh() {
         return userManagerService.accessTokenRefreshService();
