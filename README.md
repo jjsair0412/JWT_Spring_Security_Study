@@ -21,10 +21,10 @@ Spring Security와 JWT를 사용하여 인증/인가 로직을 구현한 코드
 ### Requirement
 버전 정보
 
-| No | Name                | Version | ETC. |
-|----|---------------------|---------|------|
-| 0  | MySQL               | 8.3     | -    |
-| 1  | jwt  | 0.12.3  | Package version    | 
+| No | Name                | Version | ETC.                             |
+|----|---------------------|---------|----------------------------------|
+| 0  | MySQL               | 8.3     | -                                |
+| 1  | jwt  | 0.12.3  | Maven Repository Package version | 
 
 
 backend DB는 MySQL 사용.
