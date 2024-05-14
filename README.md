@@ -19,6 +19,14 @@ Spring Security와 JWT를 사용하여 인증/인가 로직을 구현한 코드
 
 ## Running
 ### Requirement
+버전 정보
+
+| No | Name        | Version | ETC. |
+|----|-------------|---------|------|
+| 0  | MySQL       | 8.3     | -    |
+| 1  | jwt package | 0.12.3  | -    |
+
+
 backend DB는 MySQL 사용.
 - 간단히 도커 컨테이너로 생성
 ```bash
@@ -28,6 +36,7 @@ docker run --name {container_name} -e MYSQL_ROOT_PASSWORD={MYSQL_ROOT_PASSWORD} 
 # 실 사용 명령어
 docker run --name security-mysql -e MYSQL_ROOT_PASSWORD=jinseongTest! -d -p 3306:3306 mysql:8.3
 ```
+
 
 ### 0. jdk version
 jdk 17
