@@ -71,3 +71,88 @@ implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
 implementation 'io.jsonwebtoken:jjwt-impl:0.12.3'
 implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
 ```
+
+
+## API List
+### 1. 회원가입 API
+회원가입 API
+#### Request Example
+- role 분류 : ```ROLE_ADMIN``` 또는 ```ROLE_USER```
+```bash
+curl -X POST http://127.0.0.1:8080/join \
+     -d "username=yourUsername" \
+     -d "password=yourPassword" \
+     -d "role=yourRole"
+```
+
+#### Response Example
+```bash
+HttpStatus : 200
+Body : ok
+```
+
+### 2. 로그인 API
+로그인 API
+#### Request Example
+```bash
+curl -X POST http://127.0.0.1:8080/login?username=admin&password=1234
+```
+
+#### Response Example
+```bash
+HttpStatus : 200
+Header : 
+  - accessToken : eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNzE1NzEyMTczfQ.CuYibmYH-aNWHfgXnV2m9Q-mYv7bEU1Y3z7ylAI8Zbo
+  - refreshToken : eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6InVzZXIiLCJyb2xlIjoiUk9MRV9VU0VSIiwiZXhwIjoxNzE1NzEyNzEzfQ.ZVQi3ssn9bZI1vNfkcmsq4_0mHQuYuw7FcGBrYNXQUs
+```
+
+
+### 3. Role별 접근 API
+- ```ROLE_ADMIN``` 접근 API
+- ```ROLE_USER``` 접근 API
+  - ```ROLE_USER``` 로 회원가입한 유저는 ```ROLE_ADMIN``` 경로에 접근 불가
+
+#### 주의 ! : 토큰을 기입할 땐 Bearer 글자 뒤 꼭 띄어쓰기가 포함되어야 함
+#### Request Example
+```bash
+# ROLE_ADMIN 일 경우
+curl -X GET http://127.0.0.1:8080/admin \
+     -H "Authorization: Bearer your_accessToken"
+
+
+# ROLE_USER 일 경우
+curl -X GET http://127.0.0.1:8080/ \
+     -H "Authorization: Bearer your_accessToken"
+```
+
+
+#### Response Example
+```bash
+# ROLE_ADMIN 일 경우
+HttpStatus : 200
+Body : Admin Controller
+
+# ROLE_USER 일 경우
+HttpStatus : 200
+Body : Main Controller : user Role : ROLE_USER
+```
+
+### 4. Token 재발급 API
+```accessToken``` 만료 시 FE 에서 ```accessToken``` 재발급 요청하는 API
+- ```refreshToken``` 으로 요청
+- ```refreshToken``` 만료일이 5분 미만으로 남았을 경우, ```refreshToken``` 또한 재발급 함.
+#### Request Example
+```bash
+curl -X GET http://127.0.0.1:8080/refresh \
+     -H "Authorization: Bearer your_refreshToken"
+```
+
+#### Response Example
+```bash
+HttpStatus : 200
+Body : 
+{
+    "accessToken": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6IlJPTEVfQURNSU4iLCJleHAiOjE3MTU3MDkzNjN9.vQErpcgHGvjC-f7YdLWsC8tvK8jYRO3xQY_ubRrM4iY",
+    "refreshToken": "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIiwicm9sZSI6IlJPTEVfQURNSU4iLCJleHAiOjE3MTU3MDk5MDN9.rjtfXGWbitlEp3m7lpBP-X9EwqK-VSTRKGbN9Jm5Rgg"
+}
+```
