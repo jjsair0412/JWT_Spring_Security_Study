@@ -1,6 +1,6 @@
 package com.security.demo.jwt;
 
-import com.security.demo.dto.MemberEnum;
+import com.security.demo.domain.dto.MemberEnum;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;

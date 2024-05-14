@@ -1,7 +1,7 @@
 package com.security.demo.service;
 
-import com.security.demo.dto.JoinDto;
-import com.security.demo.dto.MemberEnum;
+import com.security.demo.domain.dto.JoinDto;
+import com.security.demo.domain.dto.MemberEnum;
 import com.security.demo.entity.UserEntity;
 import com.security.demo.entity.UserTokenEntity;
 import com.security.demo.jwt.JWTUtil;

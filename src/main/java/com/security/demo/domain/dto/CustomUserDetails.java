@@ -1,4 +1,4 @@
-package com.security.demo.dto;
+package com.security.demo.domain.dto;
 
 import com.security.demo.entity.UserEntity;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package com.security.demo.controller;
 
-import com.security.demo.dto.MemberEnum;
+import com.security.demo.domain.dto.MemberEnum;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;

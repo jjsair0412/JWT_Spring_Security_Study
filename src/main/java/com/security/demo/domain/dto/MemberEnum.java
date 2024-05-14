@@ -1,4 +1,4 @@
-package com.security.demo.dto;
+package com.security.demo.domain.dto;
 
 public enum MemberEnum {
     ROLE_ADMIN,

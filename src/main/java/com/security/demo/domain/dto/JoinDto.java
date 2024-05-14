@@ -1,12 +1,9 @@
-package com.security.demo.dto;
+package com.security.demo.domain.dto;
 
 import com.security.demo.entity.UserEntity;
-import com.security.demo.entity.UserTokenEntity;
-import com.security.demo.jwt.JWTUtil;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Getter

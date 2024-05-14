@@ -1,6 +1,6 @@
 package com.security.demo.config;
 
-import com.security.demo.dto.MemberEnum;
+import com.security.demo.domain.dto.MemberEnum;
 import com.security.demo.jwt.JWTFilter;
 import com.security.demo.jwt.JWTUtil;
 import com.security.demo.jwt.LoginFilter;

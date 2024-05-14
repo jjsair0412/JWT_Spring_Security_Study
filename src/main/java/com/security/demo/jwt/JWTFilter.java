@@ -2,8 +2,8 @@ package com.security.demo.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.security.demo.commonResponse.customException.TokenExpiredException;
-import com.security.demo.dto.CustomUserDetails;
-import com.security.demo.dto.MemberEnum;
+import com.security.demo.domain.dto.CustomUserDetails;
+import com.security.demo.domain.dto.MemberEnum;
 import com.security.demo.entity.UserEntity;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.ErrorResponse;
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 

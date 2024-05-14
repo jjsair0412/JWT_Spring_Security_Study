@@ -1,6 +1,6 @@
 package com.security.demo.service;
 
-import com.security.demo.dto.JoinDto;
+import com.security.demo.domain.dto.JoinDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 

@@ -1,6 +1,6 @@
 package com.security.demo.service;
 
-import com.security.demo.dto.CustomUserDetails;
+import com.security.demo.domain.dto.CustomUserDetails;
 import com.security.demo.entity.UserEntity;
 import com.security.demo.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

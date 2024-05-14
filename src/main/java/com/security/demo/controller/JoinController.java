@@ -1,6 +1,6 @@
 package com.security.demo.controller;
 
-import com.security.demo.dto.JoinDto;
+import com.security.demo.domain.dto.JoinDto;
 import com.security.demo.service.UserManagerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
