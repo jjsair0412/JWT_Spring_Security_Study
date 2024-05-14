@@ -19,6 +19,8 @@ Spring Security와 JWT를 사용하여 인증/인가 로직을 구현한 코드
 
 ## Running
 ### Requirement
+- ***로그인 및 회원가입 시 들어오는 username이 고유하다는 명제 하에 작성된 코드. 요구사항 변경 시 수정필요***
+
 버전 정보
 
 | No | Name                | Version | ETC.                             |
