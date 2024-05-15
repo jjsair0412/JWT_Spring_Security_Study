@@ -1,11 +1,14 @@
 package com.security.demo.config;
 
 import com.security.demo.domain.dto.MemberEnum;
-import com.security.demo.jwt.JWTFilter;
+import com.security.demo.handler.UserLogoutHandler;
+import com.security.demo.Filter.JWTFilter;
 import com.security.demo.jwt.JWTUtil;
-import com.security.demo.jwt.LoginFilter;
+import com.security.demo.Filter.LoginFilter;
+import com.security.demo.repository.BlackListRepository;
 import com.security.demo.repository.UserRepository;
 import com.security.demo.repository.UserTokenRepository;
+import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -31,7 +34,8 @@ import java.util.Collections;
 public class SecurityConfig {
     @Value("${spring.jwt.secret}")
     private String secret;
-
+    private final EntityManager entityManager;
+    private final BlackListRepository blackListRepository;
     private final UserRepository userRepository;
     private final UserTokenRepository userTokenRepository;
     private final AuthenticationConfiguration authenticationConfiguration;
@@ -52,7 +56,7 @@ public class SecurityConfig {
 
     @Bean
     public JWTUtil jwtUtil(){
-        return new JWTUtil(secret);
+        return new JWTUtil(secret, userRepository, entityManager, blackListRepository);
     }
 
     @Bean
@@ -60,6 +64,9 @@ public class SecurityConfig {
         return new JWTFilter(jwtUtil());
     }
 
+    @Bean UserLogoutHandler userLogoutHandler() throws Exception {
+        return new UserLogoutHandler(jwtUtil());
+    }
 
     /**
      * Spring Security 는 모든 컨트롤을 filterChain 에서 하게 됨.
@@ -109,7 +116,7 @@ public class SecurityConfig {
         // 경로별 인가 작업 ( /admin , / )
         http.authorizeHttpRequests(
                 (auth) -> auth
-                        .requestMatchers("/login", "/", "/join").permitAll()
+                        .requestMatchers("/login", "/", "/join", "/logout").permitAll()
                         .requestMatchers("/admin").hasAuthority(MemberEnum.ROLE_ADMIN.name())
                         .anyRequest().authenticated()
         );
@@ -124,6 +131,20 @@ public class SecurityConfig {
         http.sessionManagement(
                 (session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+        );
+
+        // 로그아웃 핸들러 등록
+        http.logout(logout ->
+                {
+                    try {
+                        logout.addLogoutHandler(userLogoutHandler())
+                                .logoutSuccessHandler(userLogoutHandler())
+                                .logoutUrl("/logout")
+                                .invalidateHttpSession(true);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }
         );
         return http.build();
     }

@@ -1,10 +1,11 @@
-package com.security.demo.jwt;
+package com.security.demo.Filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.security.demo.commonResponse.customException.TokenExpiredException;
 import com.security.demo.domain.dto.CustomUserDetails;
 import com.security.demo.domain.dto.MemberEnum;
 import com.security.demo.domain.entity.UserEntity;
+import com.security.demo.jwt.JWTUtil;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +17,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -39,6 +43,19 @@ public class JWTFilter extends OncePerRequestFilter {
 
         // Bearer 부분 짜르기 (7글자 잘라서 토큰만 꺼내오기)
         String AccessToken = authorization.substring(7);
+
+        if (jwtUtil.verifyToken(AccessToken)) {
+            // blackList에 등록된 토큰으로 요청할 경우
+            log.info("로그아웃된 유저");
+            response.setStatus(HttpServletResponse.SC_OK);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("utf-8");
+
+            Map<String, String> message = new HashMap<>();
+            message.put("message", "로그아웃된 유저");
+            new ObjectMapper().writeValue(response.getWriter(), message);
+            return;
+        }
 
         try  {
             if (!jwtUtil.isExpired(AccessToken)) {

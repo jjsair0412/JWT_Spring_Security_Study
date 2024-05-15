@@ -1,14 +1,25 @@
 package com.security.demo.jwt;
 
 import com.security.demo.domain.dto.MemberEnum;
+import com.security.demo.domain.entity.BlackListEntity;
+import com.security.demo.domain.entity.UserEntity;
+import com.security.demo.domain.entity.UserTokenEntity;
+import com.security.demo.repository.BlackListRepository;
+import com.security.demo.repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -23,16 +34,26 @@ import java.util.*;
  */
 @Component
 public class JWTUtil {
+
     private SecretKey secretKey;
+    private final UserRepository userRepository;
+    private final EntityManager entityManager;
+    private final BlackListRepository blackListRepository;
 
     /**
      * jwt secretKey 를 통해 secretKey 발급
      * - 사용자가 임의로 지정해준 jwt secretKey 를 통해서 JWTUtil 생성자에서 secretKey를 발급
      * @param secret : 임의로 지정한 secretKey
      */
-    public JWTUtil(@Value("${spring.jwt.secret}") String secret) {
+    public JWTUtil(@Value("${spring.jwt.secret}") String secret,
+                   UserRepository userRepository,
+                   EntityManager entityManager,
+                   BlackListRepository blackListRepository) {
         // 사용자가 임의로 지정해준 jwt secret key를 통해서 JWTUtil 생성자에서 secretKey를 발급
         this.secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
+        this.userRepository = userRepository;
+        this.entityManager = entityManager;
+        this.blackListRepository = blackListRepository;
     }
 
     /**
@@ -71,6 +92,47 @@ public class JWTUtil {
         return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().getExpiration().before(new Date());
     }
 
+
+    /**
+     * logOut 시 호출할 메서드
+     * - refreshToken 제거
+     * - accessToken blackList 에 등록
+     *
+     * @param token : accessToken
+     */
+    @Transactional
+    public void destroyToken(String token) {
+        Claims payload = Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload();
+
+        String username = payload.get("username", String.class);
+        Date expirationTime = payload.getExpiration();
+
+        UserEntity byUsername = userRepository.findByUsername(username);
+        if (byUsername != null) {
+            UserTokenEntity findTokenEntity = entityManager.find(UserTokenEntity.class, byUsername.getId());
+            findTokenEntity.setRefreshToken(null);
+
+            BlackListEntity blackListEntity = BlackListEntity.builder().build().ofBlackList(
+                    byUsername.getId(),
+                    token,
+                    expirationTime
+            );
+
+            blackListRepository.save(blackListEntity);
+        }
+    }
+
+
+    /**
+     * blackList Table에 등록된 Token인지 검증
+     * @param token : accessToken
+     * @return : true or false
+     */
+    @Transactional
+    public boolean verifyToken(String token) {
+        return blackListRepository.existsByAccessToken(token);
+    }
+
     /**
      * refreshToken 이 5분 내에 만료되는지 확인 메서드
      *
@@ -97,6 +159,7 @@ public class JWTUtil {
             throw new RuntimeException("잘못된 토큰 입력");
         }
     }
+
 
 
     /**

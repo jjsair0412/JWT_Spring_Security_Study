@@ -19,4 +19,5 @@ public interface UserManagerService {
      * @return : accessToken과 refreshToken 이 담긴 Map 반환
      */
     Map<String, String> accessTokenRefreshService(HttpServletRequest request, HttpServletResponse response);
+
 }

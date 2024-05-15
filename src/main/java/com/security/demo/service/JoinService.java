@@ -2,13 +2,17 @@ package com.security.demo.service;
 
 import com.security.demo.domain.dto.JoinDto;
 import com.security.demo.domain.dto.MemberEnum;
+import com.security.demo.domain.entity.BlackListEntity;
 import com.security.demo.domain.entity.UserEntity;
 import com.security.demo.domain.entity.UserTokenEntity;
 import com.security.demo.jwt.JWTUtil;
+import com.security.demo.repository.BlackListRepository;
 import com.security.demo.repository.UserRepository;
 import com.security.demo.repository.UserTokenRepository;
+import jakarta.persistence.EntityManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -19,13 +23,16 @@ import java.util.Map;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class JoinService implements UserManagerService{
+public class JoinService implements UserManagerService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final UserTokenRepository userTokenRepository;
+    private final BlackListRepository blackListRepository;
     private final JWTUtil jwtUtil;
+    private final EntityManager entityManager;
 
+    @Transactional
     public void joinProcess(JoinDto joinDto){
         String username = joinDto.getUsername();
 
@@ -48,6 +55,7 @@ public class JoinService implements UserManagerService{
     }
 
     @Override
+    @Transactional
     public Map<String,String> accessTokenRefreshService(HttpServletRequest request, HttpServletResponse response) {
 
         String authorizationHeader = request.getHeader("Authorization");

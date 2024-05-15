@@ -1,9 +1,10 @@
-package com.security.demo.jwt;
+package com.security.demo.Filter;
 
 import com.security.demo.domain.dto.CustomUserDetails;
 import com.security.demo.domain.dto.MemberEnum;
 import com.security.demo.domain.entity.UserEntity;
 import com.security.demo.domain.entity.UserTokenEntity;
+import com.security.demo.jwt.JWTUtil;
 import com.security.demo.repository.UserRepository;
 import com.security.demo.repository.UserTokenRepository;
 import jakarta.servlet.FilterChain;
@@ -35,6 +36,8 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException {
+
+
         String inputUsername = obtainUsername(req);
         String inputPassword = obtainPassword(req);
 
@@ -46,6 +49,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         // 검증 과정을 진행하기 위해 , AuthenticationManager 로 전달
         // SpringSecutiry 내부에서 검증로직이 수행됨.
         return authenticationManager.authenticate(authToken);
+
     }
 
 
