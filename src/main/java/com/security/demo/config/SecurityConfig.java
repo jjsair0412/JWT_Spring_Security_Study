@@ -142,7 +142,7 @@ public class SecurityConfig {
                                 .logoutUrl("/logout")
                                 .invalidateHttpSession(true);
                     } catch (Exception e) {
-                        throw new RuntimeException(e);
+                        throw new RuntimeException("logout failed"+ e.getMessage());
                     }
                 }
         );
