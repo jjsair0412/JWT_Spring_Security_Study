@@ -84,7 +84,13 @@ implementation 'io.jsonwebtoken:jjwt-jackson:0.12.3'
 curl -X POST http://127.0.0.1:8080/join \
      -d "username=yourUsername" \
      -d "password=yourPassword" \
-     -d "role=yourRole"
+     -d "memberRole=yourRole"
+     
+# 실 사용 예
+curl -X POST http://127.0.0.1:8080/join \
+     -d "username=admin" \
+     -d "password=1234" \
+     -d "memberRole=ROLE_ADMIN"
 ```
 
 #### Response Example

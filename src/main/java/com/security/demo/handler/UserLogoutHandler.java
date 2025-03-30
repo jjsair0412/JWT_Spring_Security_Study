@@ -20,7 +20,7 @@ public class UserLogoutHandler implements LogoutHandler, LogoutSuccessHandler {
     private final JWTUtil jwtUtil;
 
     /**
-     * 로그아우 수행 메서드
+     * 로그아웃 수행 메서드
      *
      * @param request : HttpServletRequest
      * @param response : HttpServletResponse
