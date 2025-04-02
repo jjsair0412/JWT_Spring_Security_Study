@@ -106,6 +106,17 @@ public class SecurityConfig {
                     }
                 }));
 
+
+        // Keycloak JWT Converter 등록
+        // 인증/인가 담당 서비스가 아닌, CLient 측일 경우
+//        KeyCloakRoleConverter keyCloakRoleConverter = new KeyCloakRoleConverter();
+//        JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
+//        jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(keyCloakRoleConverter);
+//        http.oauth2ResourceServer(
+//                oauth2 -> oauth2.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(jwtAuthenticationConverter))
+//        );
+
+
         // csrf disable
         http.csrf((auth) -> auth.disable());
         // Form 로그인 방식 disable
@@ -116,8 +127,9 @@ public class SecurityConfig {
         // 경로별 인가 작업 ( /admin , / )
         http.authorizeHttpRequests(
                 (auth) -> auth
-                        .requestMatchers("/login", "/", "/join", "/logout").permitAll()
+                        .requestMatchers("/login", "/", "/join", "/logout", "/allowPage").permitAll()
                         .requestMatchers("/admin").hasAuthority(MemberEnum.ROLE_ADMIN.name())
+                        .requestMatchers("/user").hasAuthority(MemberEnum.ROLE_USER.name())
                         .anyRequest().authenticated()
         );
 

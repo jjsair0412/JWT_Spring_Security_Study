@@ -36,7 +36,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest req, HttpServletResponse res) throws AuthenticationException {
-
+        logger.info("Attempting to authenticate");
 
         String inputUsername = obtainUsername(req);
         String inputPassword = obtainPassword(req);

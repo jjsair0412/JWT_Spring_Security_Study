@@ -18,6 +18,20 @@ public class MainController {
 
     @GetMapping("/")
     public String mainP(){
+        return testMethod();
+    }
+
+    @GetMapping("/allowPage")
+    public String allowPage(){
+        return "SUCCESS!";
+    }
+
+    @GetMapping("/user")
+    public String userP(){
+        return testMethod();
+    }
+
+    private String testMethod(){
         /**
          * Jwt 방식은 stateless 방식이긴 하지만 , JWT 검증로직이 수행될 때 잠깐 세션에 값이 들어가있기 때문에 , 꺼내서 사용이 가능함.
          */
